@@ -1,0 +1,32 @@
+name: workflow terraform
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: sprawdzenie kodu
+        uses: actions/checkout@v2
+        
+      - name: instalacja terraforma
+        uses: hashicorp/setup-terraform@v1
+        
+      - name: inicjalizacja terraforma
+        run: terraform init
+        
+      - name: sprawdzenie poprawności terraforma
+        run: terraform plan
+        
+      - name: utworzenie zasobu
+        run: terraform apply -auto-approve
+        
+      - name: właczenie skryptu
+        run: python python skrypt.py
